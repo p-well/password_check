@@ -1,4 +1,10 @@
 from re import findall
+import os
+
+
+def load_blacklist():
+    with open('blacklist.txt', mode='r', encoding='utf-8') as blacklist_data:
+        return blacklist_data.read().split('\n')
 
 
 def store_regexs_for_checks():
@@ -16,12 +22,13 @@ def store_regexs_for_checks():
 
 def rate_password_strength(user_password, regexs_list):
     rating = 0
-    for regex_of_check in regexs_list:
-        if findall(regex_of_check, user_password):
+    for template in regexs_list:
+        if findall(template, user_password):
             rating += 1
     return rating
 
 if __name__ == '__main__':
-    typed_password = input()
-    regexs_list = store_regexs_for_checks()
-    print(rate_password_strength(typed_password, regexs_list))
+    #typed_password = input()
+    #regexs_list = store_regexs_for_checks()
+    #print(rate_password_strength(typed_password, regexs_list))
+    print(load_blacklist())
