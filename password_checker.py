@@ -1,12 +1,37 @@
-from re import findall
+import argparse
+
 import requests
+
+from os.path import exists
+from re import findall
+
+
+def create_args_parser(url):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--password')
+    parser.add_argument('-w', '--weblist', default = url)
+    parser.add_argument('-u', '--userlist', nargs='?')
+    return parser
+
+
+def check_args(parser, args):
+    if args.userlist is None:
+        parser.error('--userlist is called with no arguments')
+    if args.userlist is None:
+        parser.error('Missing argument after --userlist')
+    if not exists(args.userlist):
+        parser.error('File not found.')
+    #if not args.top_numb.isdigit():
+    #    parser.error('Integer expected.')
 
 
 def fetch_web_blacklist(url):
     try:
-        return requests.get(url).text.split('\n')
+        web_blacklist = requests.get(url).text.split('\n')
     except ConnectionError:
-        return []
+         web_blacklist = []
+    finally:
+        return web_blacklist
 
 
 def load_user_blacklist(filepath):
@@ -17,10 +42,10 @@ def load_user_blacklist(filepath):
 def is_password_in_blacklist(password, 
                              web_blacklist,
                              user_blacklist):
-    return password in web_blacklist or password in user_blacklist
+    return (password in web_blacklist or password in user_blacklist)
 
 
-def store_positive_check_regex():
+def store_regex():
     regexs = [
               r'\S{8,}',  # Lenght check - at least 8 symbols
               r'\S{10,}',  # Lenght check - at least 10 symbols
@@ -35,12 +60,6 @@ def store_positive_check_regex():
     return regexs
 
 
-def store_negative_check_regex():
-    regexs = [
-              r'[8-9]{1}[0-9]{9}', # contain phone number
-             ]
-
-
 def rate_password_strength(user_password, regexs_list):
     rating = 0
     for template in regexs_list:
@@ -49,17 +68,20 @@ def rate_password_strength(user_password, regexs_list):
             rating += 1
     return rating
 
+
 if __name__ == '__main__':
     url = "https://raw.githubusercontent.com/skyzyx/bad-passwords/master/raw-mutated.txt"
-    web_blacklist = fetch_web_blacklist(url)
-    user_blacklist = load_user_blacklist('blacklist.txt')
-    user_password = input('Type your password here: ')
-    if is_password_in_blacklist(
-                                user_password,
-                                web_blacklist,
-                                user_password
-                                ):
-         print('Extremely weak password that can be compromised. Try again.')
-    regexs_list = store_positive_check_regex()
-    print(rate_password_strength(user_password, regexs_list))
-    
+    parser = create_args_parser(url)
+    args = parser.parse_args()
+    print(args)
+    check_args(parser, args)
+    # web_blacklist = fetch_web_blacklist(args.weblist)
+    # user_blacklist = load_user_blacklist(args.userlist)
+    # if is_password_in_blacklist(user_password,
+    #                             web_blacklist,
+    #                             user_blacklist):
+    #      print('Extremely weak password that can be compromised. Try again.\n')
+    #      exit()
+    # else:
+    #     regexs_list = store_regex()
+    #     print(rate_password_strength(user_password, regexs_list))
