@@ -62,7 +62,8 @@ def rate_password_strength(user_password, regexs_list):
 
 
 if __name__ == '__main__':
-    URL = "https://raw.githubusercontent.com/skyzyx/bad-passwords/master/raw-mutated.txt"
+    URL = ("https://raw.githubusercontent.com/"
+           +"skyzyx/bad-passwords/master/raw-mutated.txt")
     parser = create_args_parser()
     args = parser.parse_args()
     check_args(parser, args)
@@ -77,4 +78,4 @@ if __name__ == '__main__':
     else:
         regexs_list = store_regex()
         rating = rate_password_strength(user_password, regexs_list)
-        print('Your passworn rating: {}'.format(rating))
+        print('\nYour passworn rating: {}'.format(rating))
