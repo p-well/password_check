@@ -1,6 +1,7 @@
 import argparse
 
 import requests
+import getpass
 
 from os.path import exists
 from re import findall
@@ -52,7 +53,7 @@ def store_regex():
 
 
 def rate_password_strength(user_password, regexs_list):
-    rating = 1
+    rating = 0
     for template in regexs_list:
         if findall(template, user_password):
             print(template)
@@ -64,9 +65,9 @@ if __name__ == '__main__':
     URL = "https://raw.githubusercontent.com/skyzyx/bad-passwords/master/raw-mutated.txt"
     parser = create_args_parser()
     args = parser.parse_args()
-    print(args)
     check_args(parser, args)
-    user_password = input('\nType password:')
+    user_password = getpass.getpass('\nType password:')
+    print(user_password)
     if args.userlist is None:
         blacklist = fetch_web_blacklist(URL)
     else:
@@ -75,4 +76,5 @@ if __name__ == '__main__':
          print('\nExtremely weak password. It can be compromised. Try again')
     else:
         regexs_list = store_regex()
-        print('Rating',rate_password_strength(user_password, regexs_list))
+        rating = rate_password_strength(user_password, regexs_list)
+        print('Your passworn rating: {}'.format(rating))
