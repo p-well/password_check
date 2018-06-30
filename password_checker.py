@@ -21,7 +21,7 @@ def check_args(parser, args):
 def fetch_web_blacklist(url):
     try:
         web_blacklist = requests.get(url).text.split('\n')
-    except ConnectionError:
+    except requests.exceptions.RequestException:
          web_blacklist = []
     finally:
         return web_blacklist
@@ -47,7 +47,7 @@ def store_regex():
               r'[!,?,@,#,$,%,^,&,*,-,_]',  # Contains any of listed special symbols
               r'^(?!\S*(\S)\1{2,})',  # Doesn't contain symbols repeated more than 2 times in succession
               r'^(?!([8-9]{1}[0-9]{9}))',  #Doesn't contain phone number
-              r'^(?!.*(1|2)(\d)(\d)(\d)).*'  #Doesn't contain a
+              r'^(?!.*(1|2)(\d)(\d)(\d)).*'  #Doesn't contain a year
               ]
     return regexs
 
@@ -70,7 +70,11 @@ if __name__ == '__main__':
     user_password = getpass.getpass('\nType password:')
     print(user_password)
     if args.userlist is None:
+        print('\nWaiting for response...')
         blacklist = fetch_web_blacklist(URL)
+        print(blacklist)
+    elif not blacklist:
+        print('Empty blacklist from web is received!')
     else:
         blacklist = load_user_blacklist(args.userlist)
     if is_password_in_blacklist(user_password, blacklist):
@@ -78,4 +82,4 @@ if __name__ == '__main__':
     else:
         regexs_list = store_regex()
         rating = rate_password_strength(user_password, regexs_list)
-        print('\nYour passworn rating: {}'.format(rating))
+        print('\nYour passwort rating: {}'.format(rating))
