@@ -8,21 +8,17 @@ from re import findall
 
 def create_args_parser(url):
     parser = argparse.ArgumentParser()
-    parser.add_argument('-p', '--password')
+    parser.add_argument('-p', '--password', required = True)
     parser.add_argument('-w', '--weblist', default = url)
-    parser.add_argument('-u', '--userlist', nargs='?')
+    parser.add_argument('-u', '--userlist')
     return parser
 
 
 def check_args(parser, args):
-    if args.userlist is None:
-        parser.error('--userlist is called with no arguments')
-    if args.userlist is None:
-        parser.error('Missing argument after --userlist')
-    if not exists(args.userlist):
+    if args.weblist and args.userlist:
+        parser.error('Arguments conflict, use one source.')
+    if args.userlist is not None and not exists(args.userlist):
         parser.error('File not found.')
-    #if not args.top_numb.isdigit():
-    #    parser.error('Integer expected.')
 
 
 def fetch_web_blacklist(url):
