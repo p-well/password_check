@@ -22,7 +22,7 @@ def fetch_web_blacklist(url):
     try:
         web_blacklist = requests.get(url).text.split('\n')
     except requests.exceptions.RequestException:
-         web_blacklist = []
+        web_blacklist = []
     finally:
         return web_blacklist
 
@@ -61,8 +61,8 @@ def rate_password_strength(user_password, regexs_list):
 
 
 if __name__ == '__main__':
-    URL = ("https://raw.githubusercontent.com/"
-           +"skyzyx/bad-passwords/master/raw-mutated.txt")
+    URL = ("https://raw.githubusercontent.com/" +
+           "skyzyx/bad-passwords/master/raw-mutated.txt")
     parser = create_args_parser()
     args = parser.parse_args()
     check_args(parser, args)
@@ -76,7 +76,7 @@ if __name__ == '__main__':
     else:
         blacklist = load_user_blacklist(args.userlist)
     if is_password_in_blacklist(user_password, blacklist):
-         print('\nExtremely weak password. It can be compromised. Try again.')
+        print('\nExtremely weak password. It can be compromised. Try again.')
     else:
         regexs_list = store_regex()
         rating = rate_password_strength(user_password, regexs_list)
