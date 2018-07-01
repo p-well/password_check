@@ -26,7 +26,7 @@ It is recommended to use virtual environment in order to keep your global scope 
 
 # Usage
 
-To run the script execute ```python password_checker.py``` in CLI.
+To run the script execute ```python password_checker.py``` in CLI. <br />
 Then script expects you type your password (it will be hidden on your screen).
 
 The first step is to define whether your password is found in blacklist or not.
@@ -36,7 +36,7 @@ You may build and use your own list of bad passwords.</br>
 In this case you have to specify filepath as an additional agrument when call script:
 
 <pre>
-<b>python password_checker.py -u my_blacklist.txt</b>
+<b>>python password_checker.py -u my_blacklist.txt</b>
 </pre>
 
 Your passwords must be stored in a <i>.txt</i> file, each password on a new line.
@@ -44,15 +44,14 @@ Your passwords must be stored in a <i>.txt</i> file, each password on a new line
 The script will not perform additional evaluation of your password if it was found in blacklist.
 
 
-In case of script can't get bad passwords list (no interner connection or your file is empty) it will just </br>
-just skip this check.
+In case of script can't get bad passwords list (no internet connection or your file is empty) it will just skip this check.
 
 # Example of Script Launch
 
-When using blacklist fron the web:
+When using blacklist from the web:
 
 <pre>
-<b> >python password_checker.py</b>
+<b>>python password_checker.py</b>
 
 Type your password:
 
@@ -75,7 +74,7 @@ Extremely weak password. It can be compromised. Try again.
 When path to your blacklist in incorrect parser will raise error:
 
 <pre>
-<b> >python password_checker.py -u black__list.txt</b>
+<b>>python password_checker.py -u black__list.txt</b>
 usage: password_checker.py [-h] [-u USERLIST]
 password_checker.py: error: File not found.
 </pre>
