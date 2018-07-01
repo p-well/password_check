@@ -67,19 +67,19 @@ if __name__ == '__main__':
     parser = create_args_parser()
     args = parser.parse_args()
     check_args(parser, args)
-    user_password = getpass.getpass('\nType password:')
+    user_password = getpass.getpass('\nType your password:')
     print(user_password)
     if args.userlist is None:
         print('\nWaiting for response...')
         blacklist = fetch_web_blacklist(URL)
-        print(blacklist)
-    elif not blacklist:
-        print('Empty blacklist from web is received!')
+        if not blacklist:
+            print('\nA problem occured during internet connection')
+            print('Can not compare password with prohibited passwords')
     else:
         blacklist = load_user_blacklist(args.userlist)
     if is_password_in_blacklist(user_password, blacklist):
-         print('\nExtremely weak password. It can be compromised. Try again')
+         print('\nExtremely weak password. It can be compromised. Try again.')
     else:
         regexs_list = store_regex()
         rating = rate_password_strength(user_password, regexs_list)
-        print('\nYour passwort rating: {}'.format(rating))
+        print('\nYour password rating: {}'.format(rating))
