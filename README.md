@@ -71,10 +71,11 @@ Extremely weak password. It can be compromised. Try again.
 </pre>
 
 
-When path to your blacklist in incorrect parser will raise error:
+When path to your blacklist in incorrect parser raises error:
 
 <pre>
 <b>>python password_checker.py -u black__list.txt</b>
+
 usage: password_checker.py [-h] [-u USERLIST]
 password_checker.py: error: File not found.
 </pre>
@@ -83,3 +84,4 @@ password_checker.py: error: File not found.
 # Project Goals
 
 The code is written for educational purposes. Training course for web-developers - [DEVMAN.org](https://devman.org)
+    
