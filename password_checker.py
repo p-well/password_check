@@ -43,11 +43,11 @@ def store_regex():
               r'\S{12,}',  # Lenght check - at least 12 symbols
               r'[a-z]',  # Contains lower case letters
               r'[A-Z]',  # Contains upper case letters
-              r'[0-9]',  # Contains digits 
+              r'[0-9]',  # Contains digitss
               r'[!,?,@,#,$,%,^,&,*,-,_]',  # Contains any of listed special symbols
               r'^(?!\S*(\S)\1{2,})',  # Doesn't contain symbols repeated more than 2 times in succession
-              r'^(?!([8-9]{1}[0-9]{9}))',  #Doesn't contain phone number
-              r'^(?!.*(1|2)(\d)(\d)(\d)).*'  #Doesn't contain a year
+              r'^(?!([8-9]{1}[0-9]{9}))',  # Doesn't contain phone number
+              r'^(?!.*(1|2)(\d)(\d)(\d)).*'  # Doesn't contain a year or date of birth
               ]
     return regexs
 
@@ -56,7 +56,6 @@ def rate_password_strength(user_password, regexs_list):
     rating = 0
     for template in regexs_list:
         if findall(template, user_password):
-            print(template)
             rating += 1
     return rating
 
@@ -68,7 +67,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     check_args(parser, args)
     user_password = getpass.getpass('\nType your password:')
-    print(user_password)
     if args.userlist is None:
         print('\nWaiting for response...')
         blacklist = fetch_web_blacklist(URL)
