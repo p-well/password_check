@@ -61,7 +61,7 @@ Your password rating: 8
 </pre>
 
 
-When using your own blacklist and your password was found in this list:
+When using your own blacklist and your password was found within prohibited password:
 <pre>
 <b>python password_checker.py -u blacklist.txt</b>
 
@@ -71,7 +71,7 @@ Extremely weak password. It can be compromised. Try again.
 </pre>
 
 
-When path to your blacklist in incorrect parser raises error:
+When path to your blacklist is incorrect an error is raised:
 
 <pre>
 <b>>python password_checker.py -u black__list.txt</b>
